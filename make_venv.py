@@ -1,0 +1,47 @@
+
+
+
+## Quick install
+# cd <YOUR DIRECTORY>
+# Download and install in one line:
+#   curl -X GET https://raw.githubusercontent.com/zackees/make_env/main/make_venv.py | python
+# Then:
+#   . venv/bin/activate
+
+import os
+import sys
+
+_ACTIVATE_SH = """
+function abs_path {
+  (cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
+}
+. $( dirname $(abs_path ${BASH_SOURCE[0]}))/venv/bin/activate
+export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
+export IN_ACTIVATED_ENV="1"
+"""
+
+def _exe(cmd):
+    print(f'Executing "{cmd}"')
+    os.system(cmd)
+
+HERE = os.path.dirname(__file__)
+os.chdir(os.path.abspath(HERE))
+
+if not os.path.exists('venv'):
+    # Which one is better? virtualenv or venv? This may switch later.
+    #_exe(f'virtualenv -p python3 venv')
+    _exe('python3 -m venv venv')
+    # Linux/MacOS uses bin and Windows uses Script, so create
+    # a soft link in order to always refer to bin for all
+    # platforms.
+    if sys.platform == 'win32':
+        import _winapi
+        target = os.path.join(HERE, 'venv', 'Scripts')
+        link = os.path.join(HERE, 'venv', 'bin')
+        _winapi.CreateJunction(os.path.abspath(target), link)
+    with open('activate.sh', 'wt') as fd:
+        fd.write(_ACTIVATE_SH)
+else:
+    print(f'{os.path.abspath("venv")} already exists')
+
+print(f'Now use ". activate.sh" (at the project root dir) to enter into the environment.')
