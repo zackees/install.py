@@ -53,6 +53,6 @@ if not os.path.exists('venv'):
     with open('activate.sh', 'wt') as fd:
         fd.write(_ACTIVATE_SH)
 else:
-    print('%s already exists' % {os.path.abspath("venv")})
+    print('%s already exists' % os.path.abspath("venv"))
 
 print('Now use ". activate.sh" (at the project root dir) to enter into the environment.')
