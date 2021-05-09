@@ -39,6 +39,7 @@ if not os.path.exists('venv'):
         target = os.path.join(HERE, 'venv', 'Scripts')
         link = os.path.join(HERE, 'venv', 'bin')
         _winapi.CreateJunction(os.path.abspath(target), link)
+        os.system(f'mklink /J "{link}" "{target}"')
     with open('activate.sh', 'wt') as fd:
         fd.write(_ACTIVATE_SH)
 else:
