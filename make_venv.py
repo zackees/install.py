@@ -23,15 +23,25 @@ alias pip3=pip
 export IN_ACTIVATED_ENV="1"
 """
 
+HERE = os.path.dirname(__file__)
+os.chdir(os.path.abspath(HERE))
+
 def _exe(cmd):
     print(f'Executing "{cmd}"')
     #os.system(cmd)
     subprocess.check_call(cmd, shell=True)
+    
+def is_tool(name):
+    """Check whether `name` is on PATH."""
+    from distutils.spawn import find_executable
+    return find_executable(name) is not None
 
-HERE = os.path.dirname(__file__)
-os.chdir(os.path.abspath(HERE))
 
 if not os.path.exists('venv'):
+    if not is_tool('virtualenv'):
+      print('Required tool "virtualenv" is not installed, '
+            'please run "pip install virtualenv" and then run again')
+      sys.exit(1)
     # Which one is better? virtualenv or venv? This may switch later.
     _exe(f'virtualenv -p python3 venv')
     #_exe('python3 -m venv venv')
