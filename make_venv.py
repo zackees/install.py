@@ -4,7 +4,7 @@
 ## Quick install
 # cd <YOUR DIRECTORY>
 # Download and install in one line:
-#   curl -X GET https://raw.githubusercontent.com/zackees/make_venv/main/make_venv.py -o make_env.py | python
+#   curl -X GET https://raw.githubusercontent.com/zackees/make_venv/main/make_venv.py | python
 # Then :
 #   . activate.sh
 
