@@ -27,7 +27,7 @@ HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
 
 def _exe(cmd):
-    print(f'Executing "{cmd}"')
+    print('Executing "%s"' % cmd)
     #os.system(cmd)
     subprocess.check_call(cmd, shell=True)
     
@@ -41,7 +41,7 @@ if not os.path.exists('venv'):
     if not is_tool('virtualenv'):
       _exe('pip install virtualenv')
     # Which one is better? virtualenv or venv? This may switch later.
-    _exe(f'virtualenv -p python3 venv')
+    _exe('virtualenv -p python3 venv')
     #_exe('python3 -m venv venv')
     # Linux/MacOS uses bin and Windows uses Script, so create
     # a soft link in order to always refer to bin for all
@@ -49,10 +49,10 @@ if not os.path.exists('venv'):
     if sys.platform == 'win32':
         target = os.path.join(HERE, 'venv', 'Scripts')
         link = os.path.join(HERE, 'venv', 'bin')
-        _exe(f'mklink /J "{link}" "{target}"')
+        _exe('mklink /J "%s" "%s"' % (link, target))
     with open('activate.sh', 'wt') as fd:
         fd.write(_ACTIVATE_SH)
 else:
-    print(f'{os.path.abspath("venv")} already exists')
+    print('%s already exists' % {os.path.abspath("venv")})
 
-print(f'Now use ". activate.sh" (at the project root dir) to enter into the environment.')
+print('Now use ". activate.sh" (at the project root dir) to enter into the environment.')
