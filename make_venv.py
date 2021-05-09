@@ -35,10 +35,10 @@ if not os.path.exists('venv'):
     # a soft link in order to always refer to bin for all
     # platforms.
     if sys.platform == 'win32':
-        import _winapi
+        #import _winapi
         target = os.path.join(HERE, 'venv', 'Scripts')
         link = os.path.join(HERE, 'venv', 'bin')
-        _winapi.CreateJunction(os.path.abspath(target), link)
+        #_winapi.CreateJunction(os.path.abspath(target), link)
         os.system(f'mklink /J "{link}" "{target}"')
     with open('activate.sh', 'wt') as fd:
         fd.write(_ACTIVATE_SH)
