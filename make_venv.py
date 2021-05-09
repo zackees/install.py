@@ -4,7 +4,7 @@
 ## Quick install
 # cd <YOUR DIRECTORY>
 # Download and install in one line:
-#   curl -X GET https://raw.githubusercontent.com/zackees/make_venv/main/make_venv.py | python3
+#   curl -X GET https://raw.githubusercontent.com/zackees/make_venv/main/make_venv.py -o make_env.py | python3
 # Then :
 #   . activate.sh
 
@@ -18,6 +18,8 @@ function abs_path {
 }
 . $( dirname $(abs_path ${BASH_SOURCE[0]}))/venv/bin/activate
 export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
+alias python3=python
+alias pip3=pip
 export IN_ACTIVATED_ENV="1"
 """
 
@@ -37,11 +39,9 @@ if not os.path.exists('venv'):
     # a soft link in order to always refer to bin for all
     # platforms.
     if sys.platform == 'win32':
-        #import _winapi
         target = os.path.join(HERE, 'venv', 'Scripts')
         link = os.path.join(HERE, 'venv', 'bin')
-        #_winapi.CreateJunction(os.path.abspath(target), link)
-        os.system(f'mklink /J "{link}" "{target}"')
+        _exe(f'mklink /J "{link}" "{target}"')
     with open('activate.sh', 'wt') as fd:
         fd.write(_ACTIVATE_SH)
 else:
