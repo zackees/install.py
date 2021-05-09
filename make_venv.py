@@ -39,6 +39,7 @@ def is_tool(name):
 
 if not os.path.exists('venv'):
     if not is_tool('virtualenv'):
+      _exe('pip install virtualenv')
       print('\nRequired tool "virtualenv" is not installed, '
             'please run "pip install virtualenv" and then run again')
       sys.exit(1)
