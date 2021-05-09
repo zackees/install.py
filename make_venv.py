@@ -10,6 +10,7 @@
 
 import os
 import sys
+import subprocess
 
 _ACTIVATE_SH = """
 function abs_path {
@@ -22,7 +23,8 @@ export IN_ACTIVATED_ENV="1"
 
 def _exe(cmd):
     print(f'Executing "{cmd}"')
-    os.system(cmd)
+    #os.system(cmd)
+    subprocess.check_call(cmd, shell=True)
 
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
