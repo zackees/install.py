@@ -39,7 +39,7 @@ def is_tool(name):
 
 if not os.path.exists('venv'):
     if not is_tool('virtualenv'):
-      _exe('pip install virtualenv')
+        _exe('pip install virtualenv')
     # Which one is better? virtualenv or venv? This may switch later.
     _exe('virtualenv -p python3 venv')
     #_exe('python3 -m venv venv')
