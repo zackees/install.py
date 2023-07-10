@@ -119,6 +119,8 @@ if not os.path.exists('venv'):
         fd.write(_ACTIVATE_SH)
     if sys.platform != "win32":
         _exe('chmod +x activate.sh')
+    pip = 'pip3' if sys.platform == 'win32' else 'pip'
+    _exe(f'{pip} install -r requirements.txt')
 else:
     print(f'{os.path.abspath("venv")} already exists')
 
