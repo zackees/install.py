@@ -70,7 +70,6 @@ if [[ ! -d "venv" ]]; then
   export IN_ACTIVATED_ENV=1
   export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
   echo "Environment created."
-  pip install -r requirements.txt
   pip install -e .
   exit 0
 fi
@@ -116,12 +115,12 @@ if not os.path.exists('venv'):
         target = os.path.join(HERE, 'venv', 'Scripts')
         link = os.path.join(HERE, 'venv', 'bin')
         _exe('mklink /J "%s" "%s"' % (link, target))
-    with open('activate.sh', 'wt') as fd:
+    with open('activate.sh', encoding="utf-8", mode='w') as fd:
         fd.write(_ACTIVATE_SH)
+    if sys.platform != "win32":
+        _exe('chmod +x activate.sh')
 else:
-    print('%s already exists' % os.path.abspath("venv"))
+    print(f'{os.path.abspath("venv")} already exists')
 
-if sys.platform != "win32":
-  os.chmod('activate.sh', 0o755)
 
 print('Now use ". activate.sh" (at the project root dir) to enter into the environment.')
