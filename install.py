@@ -121,5 +121,7 @@ if not os.path.exists('venv'):
 else:
     print('%s already exists' % os.path.abspath("venv"))
 
+if sys.platform != "win32":
+  os.chmod('activate.sh', 0o755)
 
 print('Now use ". activate.sh" (at the project root dir) to enter into the environment.')
