@@ -90,6 +90,11 @@ export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
 
+IN_ACTIVATED_ENV = os.environ.get('IN_ACTIVATED_ENV', '0') == '1'
+if IN_ACTIVATED_ENV:
+    print("Cannot install a new environment while in an activated environment. Please launch a new shell and try again.")
+    sys.exit(1)
+
 
 def _exe(cmd):
     print('Executing "%s"' % cmd)
