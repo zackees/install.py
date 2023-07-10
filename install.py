@@ -70,6 +70,7 @@ if [[ ! -d "venv" ]]; then
   export IN_ACTIVATED_ENV=1
   export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
   echo "Environment created."
+  pip install -r requirements.txt
   pip install -e .
   exit 0
 fi
