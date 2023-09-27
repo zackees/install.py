@@ -20,7 +20,7 @@ import subprocess
 # This activation script adds the ability to run it from any path and also
 # aliasing pip3 and python3 to pip/python so that this works across devices.
 _ACTIVATE_SH = """
-function abs_path {
+abs_path() {
   (cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
 }
 . $( dirname $(abs_path ${BASH_SOURCE[0]}))/venv/bin/activate
