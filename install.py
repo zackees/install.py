@@ -1,4 +1,3 @@
-
 """
   Quick install
   cd <YOUR DIRECTORY>
@@ -21,6 +20,7 @@ import os
 import shutil
 import subprocess
 import sys
+import warnings
 
 # This activation script adds the ability to run it from any path and also
 # aliasing pip3 and python3 to pip/python so that this works across devices.
@@ -84,7 +84,7 @@ HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
 
 
-def _exe(cmd):
+def _exe(cmd: str, check: bool = True) -> None:
     msg = (
         "########################################\n"
         f"# Executing '{cmd}'\n"
@@ -94,7 +94,7 @@ def _exe(cmd):
     sys.stdout.flush()
     sys.stderr.flush()
     # os.system(cmd)
-    subprocess.check_call(cmd, shell=True)
+    subprocess.run(cmd, shell=True, check=check)
 
 
 def is_tool(name):
@@ -116,7 +116,8 @@ def create_virtual_environment() -> None:
     if sys.platform == "win32":
         target = os.path.join(HERE, "venv", "Scripts")
         link = os.path.join(HERE, "venv", "bin")
-        _exe('mklink /J "%s" "%s"' % (link, target))
+        if not os.path.exists(link):
+            _exe(f'mklink /J "{link}" "{target}"', check=False)
     with open("activate.sh", encoding="utf-8", mode="w") as fd:
         fd.write(_ACTIVATE_SH)
     if sys.platform != "win32":
