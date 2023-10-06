@@ -56,7 +56,7 @@ if [[ ! -d "venv" ]]; then
   # Check the operating system type.
   # If it is macOS or Linux, then create an alias 'python' for 'python3'
   # and an alias 'pip' for 'pip3'. This is helpful if python2 is the default python in the system.
-  echo "OSTYPE: $OSTYPE\n"
+  echo "OSTYPE: $OSTYPE"
   if [[ "$OSTYPE" == "darwin"* || "$OSTYPE" == "linux-gnu"* ]]; then
     python3 install.py
   else
