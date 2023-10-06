@@ -3,7 +3,7 @@
   Quick install
   cd <YOUR DIRECTORY>
   Download and install in one line:
-    curl -X GET https://raw.githubusercontent.com/zackees/make_venv/main/install.py | python
+    curl -X GET https://raw.githubusercontent.com/zackees/make_venv/main/install.py -o install.py && python install.py
 
 
   To enter the environment run:
