@@ -16,11 +16,11 @@
 """
 
 
+import argparse
 import os
+import shutil
 import subprocess
 import sys
-import argparse
-import shutil
 
 # This activation script adds the ability to run it from any path and also
 # aliasing pip3 and python3 to pip/python so that this works across devices.
@@ -83,6 +83,7 @@ export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
 
+
 def _exe(cmd):
     msg = (
         "########################################\n"
@@ -92,56 +93,67 @@ def _exe(cmd):
     print(msg)
     sys.stdout.flush()
     sys.stderr.flush()
-    #os.system(cmd)
+    # os.system(cmd)
     subprocess.check_call(cmd, shell=True)
-    
+
+
 def is_tool(name):
     """Check whether `name` is on PATH."""
     from distutils.spawn import find_executable
+
     return find_executable(name) is not None
 
+
 def create_virtual_environment() -> None:
-    if not is_tool('virtualenv'):
-        _exe('pip install virtualenv')
+    if not is_tool("virtualenv"):
+        _exe("pip install virtualenv")
     # Which one is better? virtualenv or venv? This may switch later.
-    _exe('virtualenv -p python310 venv')
-    #_exe('python3 -m venv venv')
+    _exe("virtualenv -p python310 venv")
+    # _exe('python3 -m venv venv')
     # Linux/MacOS uses bin and Windows uses Script, so create
     # a soft link in order to always refer to bin for all
     # platforms.
-    if sys.platform == 'win32':
-        target = os.path.join(HERE, 'venv', 'Scripts')
-        link = os.path.join(HERE, 'venv', 'bin')
+    if sys.platform == "win32":
+        target = os.path.join(HERE, "venv", "Scripts")
+        link = os.path.join(HERE, "venv", "bin")
         _exe('mklink /J "%s" "%s"' % (link, target))
-    with open('activate.sh', encoding="utf-8", mode='w') as fd:
+    with open("activate.sh", encoding="utf-8", mode="w") as fd:
         fd.write(_ACTIVATE_SH)
     if sys.platform != "win32":
-        _exe('chmod +x activate.sh')
+        _exe("chmod +x activate.sh")
+
 
 def main() -> int:
-    IN_ACTIVATED_ENV = os.environ.get('IN_ACTIVATED_ENV', '0') == '1'
+    IN_ACTIVATED_ENV = os.environ.get("IN_ACTIVATED_ENV", "0") == "1"
     if IN_ACTIVATED_ENV:
-        print("Cannot install a new environment while in an activated environment. Please launch a new shell and try again.")
+        print(
+            "Cannot install a new environment while in an activated environment. Please launch a new shell and try again."
+        )
         return 1
-    
-    parser = argparse.ArgumentParser(description='Install the project.')
-    parser.add_argument('--remove', action='store_true', help='Remove the virtual environment')
+
+    parser = argparse.ArgumentParser(description="Install the project.")
+    parser.add_argument(
+        "--remove", action="store_true", help="Remove the virtual environment"
+    )
     args = parser.parse_args()
     if args.remove:
-        print('Removing virtual environment')
-        shutil.rmtree('venv', ignore_errors=True)
-        node_modules = os.path.join('www', 'node_modules')
-        print(f'Removing {node_modules}')
+        print("Removing virtual environment")
+        shutil.rmtree("venv", ignore_errors=True)
+        node_modules = os.path.join("www", "node_modules")
+        print(f"Removing {node_modules}")
         shutil.rmtree(node_modules, ignore_errors=True)
         return 0
-    if not os.path.exists('venv'):
+    if not os.path.exists("venv"):
         create_virtual_environment()
     else:
         print(f'{os.path.abspath("venv")} already exists')
     _exe(f"bash activate.sh && pip install -e .")
 
-    print('Now use ". activate.sh" (at the project root dir) to enter into the environment.')
+    print(
+        'Now use ". activate.sh" (at the project root dir) to enter into the environment.'
+    )
     return 0
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     sys.exit(main())
