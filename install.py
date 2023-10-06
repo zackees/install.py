@@ -139,9 +139,6 @@ def main() -> int:
     if args.remove:
         print("Removing virtual environment")
         shutil.rmtree("venv", ignore_errors=True)
-        node_modules = os.path.join("www", "node_modules")
-        print(f"Removing {node_modules}")
-        shutil.rmtree(node_modules, ignore_errors=True)
         return 0
     if not os.path.exists("venv"):
         create_virtual_environment()
