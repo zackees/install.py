@@ -28,7 +28,7 @@ _ACTIVATE_SH = """
 #!/bin/bash
 
 # Function that computes absolute path of a file
-function abs_path {
+abs_path {
   # Navigate to the directory of the given file (silencing output) and then print
   # the present working directory followed by the base name of the file
   (cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
@@ -49,7 +49,7 @@ fi
 # If the 'venv' directory doesn't exist, print a message and exit.
 if [[ ! -d "venv" ]]; then
   echo "The 'venv' directory does not exist, creating..."
-  if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then
+  if [[ "$IN_ACTIVATED_ENV" == "1" ]]; thenf
     echo "Cannot install a new environment while in an activated environment. Please launch a new shell and try again."
     exit 1
   fi
