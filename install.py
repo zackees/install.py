@@ -162,6 +162,7 @@ def main() -> int:
             "Cannot install a new environment while in an activated environment. Please launch a new shell and try again."
         )
         return 1
+    platform_ensure_python_installed()
 
     parser = argparse.ArgumentParser(description="Install the project.")
     parser.add_argument(
