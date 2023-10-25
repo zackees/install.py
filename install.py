@@ -31,7 +31,8 @@ _ACTIVATE_SH = """
 abs_path() {
   # Navigate to the directory of the given file (silencing output) and then print
   # the present working directory followed by the base name of the file
-  (cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
+  dir=$(dirname "$1")
+  (cd "$dir" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
 }
 
 # Navigate to the directory where the current script resides
