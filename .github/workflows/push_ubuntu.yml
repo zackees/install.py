@@ -1,0 +1,15 @@
+name: MacOS_Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v3
+    - name: python3 install.py
+      run: |
+        python3 install.py

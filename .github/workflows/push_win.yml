@@ -1,0 +1,15 @@
+name: MacOS_Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+    steps:
+    - uses: actions/checkout@v3
+    - name: python install.py
+      run: |
+        python install.py
