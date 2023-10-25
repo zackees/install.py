@@ -99,7 +99,7 @@ def _exe(cmd: str, check: bool = True) -> None:
 
 def is_tool(name):
     """Check whether `name` is on PATH."""
-    from distutils.spawn import find_executable
+    from shutil import which as find_executable
 
     return find_executable(name) is not None
 
@@ -154,6 +154,12 @@ def create_virtual_environment() -> None:
     if sys.platform != "win32":
         _exe("chmod +x activate.sh")
 
+def check_platform() -> None:
+    if sys.platform == "win32":
+        is_git_bash = os.environ.get("ComSpec", "").endswith("bash.exe")
+        if not is_git_bash:
+            print("This script only works with git bash on windows.")
+            sys.exit(1)
 
 def main() -> int:
     IN_ACTIVATED_ENV = os.environ.get("IN_ACTIVATED_ENV", "0") == "1"

@@ -13,3 +13,4 @@ jobs:
     - name: python install.py
       run: |
         python install.py
+      shell: bash
