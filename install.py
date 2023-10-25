@@ -104,6 +104,21 @@ def is_tool(name):
     return find_executable(name) is not None
 
 
+def platform_ensure_python_installed() -> None:
+    try:
+        python_x = "python" if sys.platform == "win32" else "python3"
+        subprocess.check_output([python_x, "--version"])
+        return
+    except Exception:
+        pass
+    if sys.platform == "darwin":
+        _exe("brew install python3")
+    elif sys.platform == "linux":
+        _exe("sudo apt-get install python3")
+    elif sys.platform == "win32":
+        _exe("choco install python3")
+
+
 def create_virtual_environment() -> None:
     if not is_tool("virtualenv"):
         _exe("pip install virtualenv")
