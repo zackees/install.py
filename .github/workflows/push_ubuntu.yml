@@ -13,3 +13,4 @@ jobs:
     - name: python3 install.py
       run: |
         python3 install.py
+        . ./activate.sh && python --version

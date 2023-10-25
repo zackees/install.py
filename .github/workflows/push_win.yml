@@ -13,4 +13,5 @@ jobs:
     - name: python install.py
       run: |
         python install.py
+        . ./activate.sh && python --version
       shell: bash
