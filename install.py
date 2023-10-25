@@ -39,9 +39,9 @@ selfdir=$(dirname "$bashfile")
 cd "$selfdir"
 
 if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then
-  IN_ACTIVATED_ENV=true
+  IN_ACTIVATED_ENV=1
 else
-  IN_ACTIVATED_ENV=false
+  IN_ACTIVATED_ENV=0
 fi
 
 if [[ ! -d "venv" ]]; then
