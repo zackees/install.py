@@ -28,7 +28,7 @@ _ACTIVATE_SH = """
 #!/bin/bash
 
 # Function that computes absolute path of a file
-abs_path {
+abs_path() {
   # Navigate to the directory of the given file (silencing output) and then print
   # the present working directory followed by the base name of the file
   (cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
