@@ -175,7 +175,7 @@ def main() -> int:
         create_virtual_environment()
     else:
         print(f'{os.path.abspath("venv")} already exists')
-    _exe(f"bash activate.sh && pip install -e .")
+    _exe(f". activate.sh && pip install -e .")
 
     print(
         'Now use ". activate.sh" (at the project root dir) to enter into the environment.'
