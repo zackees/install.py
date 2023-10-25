@@ -119,11 +119,26 @@ def platform_ensure_python_installed() -> None:
         _exe("choco install python3")
 
 
+def get_pip() -> str:
+    if sys.platform == "win32":
+        return "pip"
+    return "pip3"
+
 def create_virtual_environment() -> None:
+    pip = get_pip()
     if not is_tool("virtualenv"):
-        _exe("pip install virtualenv")
+        _exe(f"{pip} install virtualenv")
     # Which one is better? virtualenv or venv? This may switch later.
-    _exe("virtualenv -p python310 venv")
+    try:
+        _exe("virtualenv -p python310 venv")
+    except subprocess.CalledProcessError as exc:
+        warnings.warn(f"virtualenv failed because of {exc}, trying venv")
+        try:
+            _exe("python3 -m venv venv")
+        except subprocess.CalledProcessError as exc2:
+            warnings.warn(f"couldn't make virtual environment because of {exc2}")
+            raise exc2
+
     # _exe('python3 -m venv venv')
     # Linux/MacOS uses bin and Windows uses Script, so create
     # a soft link in order to always refer to bin for all
