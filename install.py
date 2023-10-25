@@ -36,7 +36,9 @@ abs_path() {
 }
 
 # Navigate to the directory where the current script resides
-cd $( dirname $(abs_path ${BASH_SOURCE[0]}))
+bashfile=$(abs_path ${BASH_SOURCE[0]})
+selfdir=$(dirname "$bashfile")
+cd "$selfdir"
 
 
 if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then
