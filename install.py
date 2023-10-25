@@ -68,7 +68,7 @@ if [[ ! -d "venv" ]]; then
 
   . ./venv/bin/activate
   export IN_ACTIVATED_ENV=1
-  export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
+  export PATH=$selfdir/:$PATH
   echo "Environment created."
   pip install -e .
   exit 0
@@ -81,7 +81,7 @@ fi
 
 # Add the directory where the current script resides to the PATH variable. 
 # This allows executing files from that directory without specifying the full path.
-export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
+export PATH=$( dirname $(selfdir)/:$PATH
 """
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
