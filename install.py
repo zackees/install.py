@@ -96,7 +96,7 @@ def is_tool(name):
 def platform_ensure_python_installed() -> None:
     try:
         python_x = "python" if sys.platform == "win32" else "python3"
-        stdout = subprocess.check_output([python_x, "--version"])
+        stdout = subprocess.check_output([python_x, "--version"], universal_newlines=True)
         print(f"Python is already installed: {stdout}")
         return
     except Exception:
