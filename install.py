@@ -173,7 +173,7 @@ def main() -> int:
     else:
         print(f'{os.path.abspath("venv")} already exists')
     assert os.path.exists("activate.sh"), "activate.sh does not exist"
-    if os.path.exists("setup.py"):
+    if os.path.exists("setup.py") or os.path.exists("pyproject.toml"):
         _exe(f"./activate.sh && pip install -e .")
     print(
         'Now use ". activate.sh" (at the project root dir) to enter into the environment.'
