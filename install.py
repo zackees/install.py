@@ -151,8 +151,8 @@ def check_platform() -> None:
             sys.exit(1)
 
 def main() -> int:
-    IN_ACTIVATED_ENV = os.environ.get("IN_ACTIVATED_ENV", "0") == "1"
-    if IN_ACTIVATED_ENV:
+    in_activated_env = os.environ.get("IN_ACTIVATED_ENV", "0") == "1"
+    if in_activated_env:
         print(
             "Cannot install a new environment while in an activated environment. Please launch a new shell and try again."
         )
