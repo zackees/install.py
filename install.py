@@ -44,13 +44,24 @@ else
   IN_ACTIVATED_ENV=0
 fi
 
+if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then
+  # If it is, set the variable 'IN_ACTIVATED_ENV' to true
+  IN_ACTIVATED_ENV=1
+else
+  # Otherwise, set 'IN_ACTIVATED_ENV' to false
+  IN_ACTIVATED_ENV=1
+fi
+
+# If the 'venv' directory doesn't exist, print a message and exit.
 if [[ ! -d "venv" ]]; then
   echo "The 'venv' directory does not exist, creating..."
-  if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then   # Fixed typo here
+  if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then
     echo "Cannot install a new environment while in an activated environment. Please launch a new shell and try again."
     exit 1
   fi
-  
+  # Check the operating system type.
+  # If it is macOS or Linux, then create an alias 'python' for 'python3'
+  # and an alias 'pip' for 'pip3'. This is helpful if python2 is the default python in the system.
   echo "OSTYPE: $OSTYPE"
   if [[ "$OSTYPE" == "darwin"* || "$OSTYPE" == "linux-gnu"* ]]; then
     python3 install.py
@@ -60,14 +71,14 @@ if [[ ! -d "venv" ]]; then
 
   . ./venv/bin/activate
   export IN_ACTIVATED_ENV=1
-  export PATH="$selfdir/:$PATH"
+  export PATH="./:$PATH"
   echo "Environment created."
   pip install -e .
   exit 0
 fi
 
 . ./venv/bin/activate
-export PATH="$selfdir/:$PATH"
+export PATH="./:$PATH"
 """
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
