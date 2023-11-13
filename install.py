@@ -1,10 +1,4 @@
 """
-  Quick install
-  cd <YOUR DIRECTORY>
-  Download and install in one line:
-    curl -X GET https://raw.githubusercontent.com/zackees/install.py/main/install.py -o install.py && python install.py
-
-
   To enter the environment run:
     source activate.sh
 
@@ -21,6 +15,7 @@ import shutil
 import subprocess
 import sys
 import warnings
+from shutil import which as find_executable
 
 # This activation script adds the ability to run it from any path and also
 # aliasing pip3 and python3 to pip/python so that this works across devices.
@@ -71,20 +66,20 @@ if [[ ! -d "venv" ]]; then
 
   . ./venv/bin/activate
   export IN_ACTIVATED_ENV=1
-  export PATH="./:$PATH"
   echo "Environment created."
   pip install -e .
   exit 0
 fi
 
 . ./venv/bin/activate
-export PATH="./:$PATH"
 """
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
+HERE = os.path.dirname(__file__)
+WWW = os.path.join(HERE, "www")
 
 
-def _exe(cmd: str, check: bool = True) -> None:
+def _exe(cmd: str, check: bool = True, cwd: str | None = None) -> None:
     msg = (
         "########################################\n"
         f"# Executing '{cmd}'\n"
@@ -94,12 +89,11 @@ def _exe(cmd: str, check: bool = True) -> None:
     sys.stdout.flush()
     sys.stderr.flush()
     # os.system(cmd)
-    subprocess.run(cmd, shell=True, check=check)
+    subprocess.run(cmd, shell=True, check=check, cwd=cwd)
 
 
 def is_tool(name):
     """Check whether `name` is on PATH."""
-    from shutil import which as find_executable
 
     return find_executable(name) is not None
 
@@ -125,20 +119,15 @@ def get_pip() -> str:
         return "pip"
     return "pip3"
 
+def get_python() -> str:
+    return sys.executable
+
 def create_virtual_environment() -> None:
-    pip = get_pip()
-    if not is_tool("virtualenv"):
-        _exe(f"{pip} install virtualenv")
-    # Which one is better? virtualenv or venv? This may switch later.
     try:
-        _exe("virtualenv -p python310 venv")
+        _exe(f"{get_python()} -m venv venv")
     except subprocess.CalledProcessError as exc:
-        warnings.warn(f"virtualenv failed because of {exc}, trying venv")
-        try:
-            _exe("python3 -m venv venv")
-        except subprocess.CalledProcessError as exc2:
-            warnings.warn(f"couldn't make virtual environment because of {exc2}")
-            raise exc2
+        warnings.warn(f"couldn't make virtual environment because of {exc}")
+        raise exc
 
     # _exe('python3 -m venv venv')
     # Linux/MacOS uses bin and Windows uses Script, so create
@@ -161,6 +150,36 @@ def check_platform() -> None:
             print("This script only works with git bash on windows.")
             sys.exit(1)
 
+def npm_install() -> None:
+    _exe("cd www && npm install", HERE)
+    _exe("cd www && npm run build", HERE)
+
+def install_php() -> None:
+    if shutil.which("php"):
+        print(f"Skipping php install because it is already installed at {shutil.which('php')}")
+        return
+    if sys.platform == "win32":
+        cmd = """choco install php --version 8.2 --params '"/ThreadSafe""'"""
+        print(f'\n\nPlease install php via chocolatey: "{cmd}"\n\n')
+        return
+    if sys.platform == "darwin":
+        print('\n\nPlease install php via homebrew: "brew install php@8.2"\n\n')
+        return
+    if sys.platform == "linux":
+        print('\n\nPlease install php via apt: "sudo apt install php"\n\n')
+        return
+    print(f"Unknown platform {sys.platform}, please install php manually.")
+
+def modify_activate_script() -> None:
+    path = os.path.join(HERE, "venv", "bin", "activate")
+    text_to_add = (
+        '\nPATH="./:$PATH"\n' +
+        'export PATH'
+    )
+    with open(path, encoding="utf-8", mode="a") as fd:
+        fd.write(text_to_add)
+
+
 def main() -> int:
     in_activated_env = os.environ.get("IN_ACTIVATED_ENV", "0") == "1"
     if in_activated_env:
@@ -169,7 +188,6 @@ def main() -> int:
         )
         return 1
     platform_ensure_python_installed()
-
     parser = argparse.ArgumentParser(description="Install the project.")
     parser.add_argument(
         "--remove", action="store_true", help="Remove the virtual environment"
@@ -184,13 +202,22 @@ def main() -> int:
     else:
         print(f'{os.path.abspath("venv")} already exists')
     assert os.path.exists("activate.sh"), "activate.sh does not exist"
-    if os.path.exists("setup.py") or os.path.exists("pyproject.toml"):
-        _exe(f"./activate.sh && pip install -e .")
-    print(
-        'Now use ". activate.sh" (at the project root dir) to enter into the environment.'
-    )
-    return 0
-
+    npm_install()
+    modify_activate_script()
+    # Note that we can now just use pip instead of pip3 because
+    # we are now in the virtual environment.
+    try:
+        _exe("./activate.sh && pip install -e .")
+        print(
+            'Now use ". ./activate.sh" (at the project root dir) to enter into the environment.'
+        )
+        return 0
+    except subprocess.CalledProcessError:
+        print(
+            "Now complete install with `. ./activate.sh && pip install -e .`\n"
+            "then use `. ./activate.sh` to enter into the environment."
+        )
+        return 0
 
 if __name__ == "__main__":
     sys.exit(main())
