@@ -101,7 +101,9 @@ def is_tool(name):
 def platform_ensure_python_installed() -> None:
     try:
         python_x = "python" if sys.platform == "win32" else "python3"
-        stdout = subprocess.check_output([python_x, "--version"], universal_newlines=True)
+        stdout = subprocess.check_output(
+            [python_x, "--version"], universal_newlines=True
+        )
         print(f"Python is already installed: {stdout}")
         return
     except Exception:
@@ -119,8 +121,10 @@ def get_pip() -> str:
         return "pip"
     return "pip3"
 
+
 def get_python() -> str:
     return sys.executable
+
 
 def create_virtual_environment() -> None:
     try:
@@ -143,6 +147,7 @@ def create_virtual_environment() -> None:
     if sys.platform != "win32":
         _exe("chmod +x activate.sh")
 
+
 def check_platform() -> None:
     if sys.platform == "win32":
         is_git_bash = os.environ.get("ComSpec", "").endswith("bash.exe")
@@ -150,13 +155,17 @@ def check_platform() -> None:
             print("This script only works with git bash on windows.")
             sys.exit(1)
 
+
 def npm_install() -> None:
     _exe("cd www && npm install", HERE)
     _exe("cd www && npm run build", HERE)
 
+
 def install_php() -> None:
     if shutil.which("php"):
-        print(f"Skipping php install because it is already installed at {shutil.which('php')}")
+        print(
+            f"Skipping php install because it is already installed at {shutil.which('php')}"
+        )
         return
     if sys.platform == "win32":
         cmd = """choco install php --version 8.2 --params '"/ThreadSafe""'"""
@@ -170,12 +179,10 @@ def install_php() -> None:
         return
     print(f"Unknown platform {sys.platform}, please install php manually.")
 
+
 def modify_activate_script() -> None:
     path = os.path.join(HERE, "venv", "bin", "activate")
-    text_to_add = (
-        '\nPATH="./:$PATH"\n' +
-        'export PATH'
-    )
+    text_to_add = '\nPATH="./:$PATH"\n' + "export PATH"
     with open(path, encoding="utf-8", mode="a") as fd:
         fd.write(text_to_add)
 
@@ -218,6 +225,7 @@ def main() -> int:
             "then use `. ./activate.sh` to enter into the environment."
         )
         return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
