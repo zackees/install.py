@@ -15,6 +15,7 @@ import shutil
 import subprocess
 import sys
 import warnings
+from typing import Optional
 from shutil import which as find_executable
 
 # This activation script adds the ability to run it from any path and also
@@ -79,7 +80,7 @@ HERE = os.path.dirname(__file__)
 WWW = os.path.join(HERE, "www")
 
 
-def _exe(cmd: str, check: bool = True, cwd: str | None = None) -> None:
+def _exe(cmd: str, check: bool = True, cwd: Optional[str] = None) -> None:
     msg = (
         "########################################\n"
         f"# Executing '{cmd}'\n"
