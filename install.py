@@ -157,11 +157,6 @@ def check_platform() -> None:
             sys.exit(1)
 
 
-def npm_install() -> None:
-    _exe("cd www && npm install", HERE)
-    _exe("cd www && npm run build", HERE)
-
-
 def install_php() -> None:
     if shutil.which("php"):
         print(
@@ -210,7 +205,6 @@ def main() -> int:
     else:
         print(f'{os.path.abspath("venv")} already exists')
     assert os.path.exists("activate.sh"), "activate.sh does not exist"
-    npm_install()
     modify_activate_script()
     # Note that we can now just use pip instead of pip3 because
     # we are now in the virtual environment.
