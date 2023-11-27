@@ -1,0 +1,23 @@
+#!/bin/bash
+
+kernelName="$(uname -s)"
+
+curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o python
+
+if [ "$kernelName" == "Darwin" ]; then
+    brew install python@3.11
+    python3.11 -m venv venv
+    source venv/bin/activate
+    python install.py
+elif [ "$kernelName" == "Linux" ]; then
+    sudo apt-get install python3.11
+    python3.11 -m venv venv
+    source venv/bin/activate
+    python install.py
+elif [[ "$kernelName" == CYGWIN* ]] || [[ "$kernelName" == MINGW32* ]] || [[ "$kernelName" == MSYS* ]] || [[ "$kernelName" == MINGW* ]]; then
+   echo "Windows OS detected"
+else
+    # Error
+    echo "Unknown operating system: $kernelName"
+fi
+
