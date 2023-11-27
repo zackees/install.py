@@ -1,4 +1,6 @@
 """
+
+  curl https://raw.githubusercontent.com/zackees/install.py/main/install.py | python
   To enter the environment run:
     source activate.sh
 
