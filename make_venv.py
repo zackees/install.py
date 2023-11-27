@@ -1,5 +1,6 @@
 
 """
+  DEPRECATED - PLEASE USE install.py
   Quick install
   cd <YOUR DIRECTORY>
   Download and install in one line:
