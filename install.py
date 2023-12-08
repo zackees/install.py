@@ -17,8 +17,8 @@ import shutil
 import subprocess
 import sys
 import warnings
-from typing import Optional
 from shutil import which as find_executable
+from typing import Optional
 
 IS_GITHUB = 'GITHUB_WORKSPACE' in os.environ
 
@@ -26,6 +26,7 @@ IS_GITHUB = 'GITHUB_WORKSPACE' in os.environ
 # aliasing pip3 and python3 to pip/python so that this works across devices.
 _ACTIVATE_SH = """
 #!/bin/bash
+set -e
 
 # Function that computes absolute path of a file
 abs_path() {
