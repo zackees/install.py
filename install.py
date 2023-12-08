@@ -180,6 +180,8 @@ def main() -> int:
           _exe("chmod +x activate.sh")
       _exe("git add ./activate.sh --chmod=+x")
 
+    os.chdir(os.path.abspath(HERE))
+
     # Linux/MacOS uses bin and Windows uses Script, so create
     # a soft link in order to always refer to bin for all
     # platforms.
@@ -189,7 +191,8 @@ def main() -> int:
         link = os.path.join(HERE, "venv", "bin")
         if not os.path.exists(link):
             _exe(f'mklink /J "{link}" "{target}"', check=False)
-  
+
+    
     assert os.path.exists("activate.sh"), "activate.sh does not exist"
     modify_activate_script()
     # Note that we can now just use pip instead of pip3 because
