@@ -30,44 +30,43 @@ _ACTIVATE_SH = """
 # Function that computes absolute path of a file
 abs_path() {
   dir=$(dirname "$1")
-  (cd "$dir" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
+  cd "$dir" >/dev/null 2>&1
+  printf "%s/%s" "$(pwd)" "${1##*/}"
 }
 
 # Navigate to the directory where the current script resides
-bashfile=$(abs_path "${BASH_SOURCE[0]}")
+bashfile=$(abs_path "$0")
 selfdir=$(dirname "$bashfile")
 cd "$selfdir"
 
-if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then
+if [ "$IN_ACTIVATED_ENV" = "1" ]; then
   IN_ACTIVATED_ENV=1
 else
   IN_ACTIVATED_ENV=0
 fi
 
-if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then
-  # If it is, set the variable 'IN_ACTIVATED_ENV' to true
+if [ "$IN_ACTIVATED_ENV" = "1" ]; then
   IN_ACTIVATED_ENV=1
 else
-  # Otherwise, set 'IN_ACTIVATED_ENV' to false
   IN_ACTIVATED_ENV=1
 fi
 
 # If the 'venv' directory doesn't exist, print a message and exit.
-if [[ ! -d "venv" ]]; then
+if [ ! -d "venv" ]; then
   echo "The 'venv' directory does not exist, creating..."
-  if [[ "$IN_ACTIVATED_ENV" == "1" ]]; then
+  if [ "$IN_ACTIVATED_ENV" = "1" ]; then
     echo "Cannot install a new environment while in an activated environment. Please launch a new shell and try again."
     exit 1
   fi
-  # Check the operating system type.
-  # If it is macOS or Linux, then create an alias 'python' for 'python3'
-  # and an alias 'pip' for 'pip3'. This is helpful if python2 is the default python in the system.
   echo "OSTYPE: $OSTYPE"
-  if [[ "$OSTYPE" == "darwin"* || "$OSTYPE" == "linux-gnu"* ]]; then
-    python3 install.py
-  else
-    python install.py
-  fi
+  case "$OSTYPE" in
+    darwin*|linux-gnu*)
+      python3 install.py
+      ;;
+    *)
+      python install.py
+      ;;
+  esac
 
   . ./venv/bin/activate
   export IN_ACTIVATED_ENV=1
