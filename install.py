@@ -88,6 +88,8 @@ fi
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
 
+print(f"install.py changed directory to {os.getcwd()}")
+
 
 def _exe(cmd: str, check: bool = True, cwd: Optional[str] = None) -> None:
     msg = (
