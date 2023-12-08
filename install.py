@@ -135,16 +135,6 @@ def create_virtual_environment() -> None:
     except subprocess.CalledProcessError as exc:
         warnings.warn(f"couldn't make virtual environment because of {exc}")
         raise exc
-
-    # _exe('python3 -m venv venv')
-    # Linux/MacOS uses bin and Windows uses Script, so create
-    # a soft link in order to always refer to bin for all
-    # platforms.
-    if sys.platform == "win32":
-        target = os.path.join(HERE, "venv", "Scripts")
-        link = os.path.join(HERE, "venv", "bin")
-        if not os.path.exists(link):
-            _exe(f'mklink /J "{link}" "{target}"', check=False)
     with open("activate.sh", encoding="utf-8", mode="w") as fd:
         fd.write(_ACTIVATE_SH)
     if sys.platform != "win32":
@@ -188,6 +178,17 @@ def main() -> int:
         create_virtual_environment()
     else:
         print(f'{os.path.abspath("venv")} already exists')
+
+    # Linux/MacOS uses bin and Windows uses Script, so create
+    # a soft link in order to always refer to bin for all
+    # platforms.
+    if sys.platform == "win32" and not os.path.exists(os.path.join(HERE, "venv", "bin")):
+        print("Creating soft link for windows")
+        target = os.path.join(HERE, "venv", "Scripts")
+        link = os.path.join(HERE, "venv", "bin")
+        if not os.path.exists(link):
+            _exe(f'mklink /J "{link}" "{target}"', check=False)
+  
     assert os.path.exists("activate.sh"), "activate.sh does not exist"
     modify_activate_script()
     # Note that we can now just use pip instead of pip3 because
