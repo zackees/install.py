@@ -13,4 +13,6 @@ jobs:
     - name: install
       run: |
         /bin/bash ./install
+        echo "Current working directory:"
+        pwd
         . ./activate.sh && python --version
