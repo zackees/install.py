@@ -18,8 +18,8 @@ cd "$selfdir"
 echo changed to $(pwd)
 
 # Check if install.py exists, if not, download it
-if [ ! -f "install.py" ]; then
-    curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o install.py
+if [ ! -f "./install.py" ]; then
+    curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o ./install.py
 else
     echo "install.py already exists. Skipping download."
 fi
