@@ -26,6 +26,8 @@ if [ "$kernelName" == "Darwin" ]; then
         brew install python@3.11
         python3.11 -m venv venv
         source venv/bin/activate
+        ls -al
+        pwd
         python ./install.py
     else
         echo "Error: Homebrew is not installed. Please install Homebrew and rerun this script."
