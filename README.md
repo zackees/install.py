@@ -8,6 +8,8 @@ Super easy script that can make a virtual environment then drop in an active.sh 
 
 [![Ubuntu_Tests](https://github.com/zackees/install.py/actions/workflows/push_ubuntu.yml/badge.svg)](https://github.com/zackees/install.py/actions/workflows/push_ubuntu.yml)
 
+[![Ubuntu_Remote_Test](https://github.com/zackees/install.py/actions/workflows/push_ubuntu_remote_install.yml/badge.svg)](https://github.com/zackees/install.py/actions/workflows/push_ubuntu_remote_install.yml)
+
 
 # Quick install
 
