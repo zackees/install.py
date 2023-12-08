@@ -20,6 +20,8 @@ import warnings
 from typing import Optional
 from shutil import which as find_executable
 
+IS_GITHUB = 'GITHUB_WORKSPACE' in os.environ
+
 # This activation script adds the ability to run it from any path and also
 # aliasing pip3 and python3 to pip/python so that this works across devices.
 _ACTIVATE_SH = """
@@ -201,6 +203,8 @@ def main() -> int:
         )
         return 0
     except subprocess.CalledProcessError:
+        if IS_GITHUB:
+            raise
         print(
             "Now complete install with `. ./activate.sh && pip install -e .`\n"
             "then use `. ./activate.sh` to enter into the environment."
