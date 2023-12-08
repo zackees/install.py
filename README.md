@@ -22,5 +22,4 @@ Super easy script that can make a virtual environment then drop in an active.sh 
 
 
 # Notes
-    This script is tested to work using python2 and python3 from a fresh install. The only side effect
-    of running this script is that virtualenv will be globally installed if it isn't already.
+    This script is tested to work using python2 and python3 from a fresh install.
