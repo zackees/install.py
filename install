@@ -17,7 +17,12 @@ bashfile=$(abs_path "$0")
 selfdir=$(dirname "$bashfile")
 cd "$selfdir"
 
-curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o install.py
+# Check if install.py exists, if not, download it
+if [ ! -f "install.py" ]; then
+    curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o install.py
+else
+    echo "install.py already exists. Skipping download."
+fi
 
 if [ "$kernelName" == "Darwin" ]; then
     # Check if Homebrew is installed
