@@ -10,8 +10,8 @@ jobs:
         os: [windows-latest]
     steps:
     - uses: actions/checkout@v3
-    - name: python install.py
+    - name: install
       run: |
-        python install.py
+        /bin/bash ./install
         . ./activate.sh && python --version
       shell: bash
