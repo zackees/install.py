@@ -133,10 +133,6 @@ def create_virtual_environment() -> None:
     except subprocess.CalledProcessError as exc:
         warnings.warn(f"couldn't make virtual environment because of {exc}")
         raise exc
-    with open("activate.sh", encoding="utf-8", mode="w") as fd:
-        fd.write(_ACTIVATE_SH)
-    if sys.platform != "win32":
-        _exe("chmod +x activate.sh")
 
 
 def check_platform() -> None:
@@ -176,6 +172,13 @@ def main() -> int:
         create_virtual_environment()
     else:
         print(f'{os.path.abspath("venv")} already exists')
+
+    if not os.path.exists(HERE, "activate.sh"):
+      with open("activate.sh", encoding="utf-8", mode="w") as fd:
+          fd.write(_ACTIVATE_SH)
+      if sys.platform != "win32":
+          _exe("chmod +x activate.sh")
+      _exe("git add ./activate.sh --chmod=+x")
 
     # Linux/MacOS uses bin and Windows uses Script, so create
     # a soft link in order to always refer to bin for all
