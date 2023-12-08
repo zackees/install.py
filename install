@@ -6,18 +6,11 @@ set -e
 
 kernelName="$(uname -s)"
 
-# Function that computes absolute path of a file
-abs_path() {
-  dir=$(dirname "$1")
-  cd "$dir" >/dev/null 2>&1
-  printf "%s/%s" "$(pwd)" "${1##*/}"
-}
+# Get the directory of the current script
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-# Navigate to the directory where the current script resides
-bashfile=$(abs_path "$0")
-selfdir=$(dirname "$bashfile")
-cd "$selfdir"
-
+# Change to that directory
+cd "$script_dir"
 echo changed to $(pwd)
 
 # Check if install.py exists, if not, download it
