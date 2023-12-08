@@ -54,10 +54,6 @@ fi
 # If the 'venv' directory doesn't exist, print a message and exit.
 if [ ! -d "venv" ]; then
   echo "The 'venv' directory does not exist, creating..."
-  if [ "$IN_ACTIVATED_ENV" = "1" ]; then
-    echo "Cannot install a new environment while in an activated environment. Please launch a new shell and try again."
-    exit 1
-  fi
   echo "OSTYPE: $OSTYPE"
   case "$OSTYPE" in
     darwin*|linux-gnu*)
