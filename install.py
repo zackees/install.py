@@ -183,12 +183,13 @@ def main() -> int:
         print(f'{os.path.abspath("venv")} already exists')
     # Is this necessary?
     os.chdir(os.path.abspath(HERE))
-    if not os.path.exists("activate.sh"):
-      with open("activate.sh", encoding="utf-8", mode="w") as fd:
+    activate_sh = os.path.join(HERE, "activate.sh")
+    if not os.path.exists(activate_sh):
+      with open(activate_sh, encoding="utf-8", mode="w") as fd:
           fd.write(_ACTIVATE_SH)
       if sys.platform != "win32":
-          _exe("chmod +x activate.sh")
-      _exe("git add ./activate.sh --chmod=+x")
+          _exe(f'chmod +x {activate_sh}')
+      _exe(f'git add {activate_sh} --chmod=+x')
 
 
 
@@ -203,12 +204,12 @@ def main() -> int:
             _exe(f'mklink /J "{link}" "{target}"', check=False)
 
     
-    assert os.path.exists("activate.sh"), "activate.sh does not exist"
+    assert os.path.exists(activate_sh), f"{activate_sh} does not exist"
     modify_activate_script()
     # Note that we can now just use pip instead of pip3 because
     # we are now in the virtual environment.
     try:
-        cmd = "bash activate.sh" if sys.platform == "win32" else "./activate.sh"
+        cmd = "bash activate.sh" if sys.platform == "win32" else f'"{activate_sh}"'
         _exe(f"{cmd} && pip install -e .")  # Why does this fail on windows git-bash?
         print(
             'Now use ". ./activate.sh" (at the project root dir) to enter into the environment.'
