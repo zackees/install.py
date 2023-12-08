@@ -15,6 +15,8 @@ bashfile=$(abs_path "$0")
 selfdir=$(dirname "$bashfile")
 cd "$selfdir"
 
+echo changed to $(pwd)
+
 # Check if install.py exists, if not, download it
 if [ ! -f "install.py" ]; then
     curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o install.py
