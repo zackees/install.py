@@ -14,5 +14,7 @@ jobs:
       run: |
         /bin/bash ./install
         echo "Current working directory:"
+    - name: test post install
+      run: |
         pwd
         . ./activate.sh && python --version
