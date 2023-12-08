@@ -49,14 +49,14 @@ fi
 # If the 'venv' directory doesn't exist, print a message and exit.
 if [ ! -d "venv" ]; then
   $cwd = $(pwd)
-  echo "The 'venv' directory in $venv does not exist, creating..."
+  echo "The 'venv' directory in $cwd does not exist, creating..."
   echo "OSTYPE: $OSTYPE"
   case "$OSTYPE" in
     darwin*|linux-gnu*)
-      python3 install.py
+      python3 ./install.py
       ;;
     *)
-      python install.py
+      python ./install.py
       ;;
   esac
 
