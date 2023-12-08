@@ -1,9 +1,7 @@
 #!/bin/bash
+set -e
 
 kernelName="$(uname -s)"
-
-# pwd
-# ls -al
 
 # Function that computes absolute path of a file
 abs_path() {
