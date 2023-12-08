@@ -34,6 +34,8 @@ if [ "$kernelName" == "Darwin" ]; then
         ls -al
         pwd
         python ./install.py
+        echo "finished macos install"
+        exit 0
     else
         echo "Error: Homebrew is not installed. Please install Homebrew and rerun this script."
         exit 1
@@ -43,11 +45,15 @@ elif [ "$kernelName" == "Linux" ]; then
     python3.11 -m venv venv
     source venv/bin/activate
     python ./install.py
+    echo "finished linux install"
+    exit 0
 elif [[ "$kernelName" == CYGWIN* ]] || [[ "$kernelName" == MINGW32* ]] || [[ "$kernelName" == MSYS* ]] || [[ "$kernelName" == MINGW* ]]; then
-   echo "Windows OS detected"
-   python -m venv venv
-   source venv/Scripts/activate
-   python install.py
+    echo "Windows OS detected"
+    python -m venv venv
+    source venv/Scripts/activate
+    python install.py
+    echo "finished windows install"
+    exit 0
 else
     # Error
     echo "Unknown operating system: $kernelName"
