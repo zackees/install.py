@@ -10,7 +10,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v3
-    - name: python3 install.py
+    - name: install
       run: |
-        python3 install.py
+        /bin/bash ./install
         . ./activate.sh && python --version
