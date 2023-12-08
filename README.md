@@ -15,8 +15,8 @@ Super easy script that can make a virtual environment then drop in an active.sh 
 
 
   * `cd <YOUR DIRECTORY>`
-  * Download and install in one line:
-    * `curl -X GET https://raw.githubusercontent.com/zackees/make_venv/main/install.py | python`
+  * Download and install in one line (requires git-bash on windows):
+    * `curl -s https://raw.githubusercontent.com/zackees/install.py/main/install | bash`
   * To enter the environment run:
     * `source activate.sh`
 
