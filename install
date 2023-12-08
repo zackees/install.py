@@ -1,4 +1,7 @@
 #!/bin/bash
+# run this with one line:
+#  https://raw.githubusercontent.com/zackees/install.py/main/install | bash
+
 set -e
 
 kernelName="$(uname -s)"
