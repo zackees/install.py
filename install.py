@@ -209,7 +209,7 @@ def main() -> int:
     # Note that we can now just use pip instead of pip3 because
     # we are now in the virtual environment.
     try:
-        cmd = "bash activate.sh" if (sys.platform == "win32" or sys.platform == "darwin") else "./activate.sh"
+        cmd = "bash activate.sh" if sys.platform == "win32" else "./activate.sh"
         _exe(f"{cmd} && pip install -e .")  # Why does this fail on windows git-bash?
         print(
             'Now use ". ./activate.sh" (at the project root dir) to enter into the environment.'
