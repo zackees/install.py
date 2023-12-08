@@ -76,8 +76,6 @@ fi
 """
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
-HERE = os.path.dirname(__file__)
-WWW = os.path.join(HERE, "www")
 
 
 def _exe(cmd: str, check: bool = True, cwd: Optional[str] = None) -> None:
@@ -172,15 +170,16 @@ def main() -> int:
         create_virtual_environment()
     else:
         print(f'{os.path.abspath("venv")} already exists')
-
-    if not os.path.exists(HERE, "activate.sh"):
+    # Is this necessary?
+    os.chdir(os.path.abspath(HERE))
+    if not os.path.exists("activate.sh"):
       with open("activate.sh", encoding="utf-8", mode="w") as fd:
           fd.write(_ACTIVATE_SH)
       if sys.platform != "win32":
           _exe("chmod +x activate.sh")
       _exe("git add ./activate.sh --chmod=+x")
 
-    os.chdir(os.path.abspath(HERE))
+
 
     # Linux/MacOS uses bin and Windows uses Script, so create
     # a soft link in order to always refer to bin for all
