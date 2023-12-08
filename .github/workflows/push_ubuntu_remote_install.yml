@@ -13,6 +13,6 @@ jobs:
     - name: install
       run: |
         rm -rf *
-        curl -o https://raw.githubusercontent.com/zackees/install.py/main/setup.py -o setup.py
+        curl https://raw.githubusercontent.com/zackees/install.py/main/setup.py -o setup.py
         curl -s https://raw.githubusercontent.com/zackees/install.py/main/install | bash
         . ./activate.sh && python --version
