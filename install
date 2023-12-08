@@ -2,7 +2,7 @@
 
 kernelName="$(uname -s)"
 
-curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o python
+curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o install.py
 
 if [ "$kernelName" == "Darwin" ]; then
     # Check if Homebrew is installed
