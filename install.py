@@ -30,9 +30,11 @@ set -e
 
 # Function that computes absolute path of a file
 abs_path() {
-  dir=$(dirname "$1")
-  cd "$dir" >/dev/null 2>&1
-  printf "%s/%s" "$(pwd)" "${1##*/}"
+  (
+    dir=$(dirname "$1")
+    cd "$dir" >/dev/null 2>&1
+    printf "%s/%s" "$(pwd)" "${1##*/}"
+  )
 }
 
 # Navigate to the directory where the current script resides
