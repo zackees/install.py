@@ -52,7 +52,6 @@ bashfile=$(abs_path "$0")
 # Now you can use "$bashfile" as needed
 echo "The absolute path of the script is: $bashfile"
 selfdir=$(dirname "$bashfile")
-selfdir=abs_path
 cd "$selfdir"
 echo "activate.sh change working directory to $(pwd)"
 
