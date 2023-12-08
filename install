@@ -2,6 +2,18 @@
 
 kernelName="$(uname -s)"
 
+# Function that computes absolute path of a file
+abs_path() {
+  dir=$(dirname "$1")
+  cd "$dir" >/dev/null 2>&1
+  printf "%s/%s" "$(pwd)" "${1##*/}"
+}
+
+# Navigate to the directory where the current script resides
+bashfile=$(abs_path "$0")
+selfdir=$(dirname "$bashfile")
+cd "$selfdir"
+
 curl https://raw.githubusercontent.com/zackees/install.py/main/install.py -o install.py
 
 if [ "$kernelName" == "Darwin" ]; then
