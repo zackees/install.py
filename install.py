@@ -48,7 +48,7 @@ fi
 
 # If the 'venv' directory doesn't exist, print a message and exit.
 if [ ! -d "venv" ]; then
-  cwd = $(pwd)
+  cwd=$(pwd)
   echo "The 'venv' directory in $cwd does not exist, creating..."
   echo "OSTYPE: $OSTYPE"
   case "$OSTYPE" in
