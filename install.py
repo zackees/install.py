@@ -30,15 +30,27 @@ set -e
 
 # Function that computes absolute path of a file
 abs_path() {
-  (
+  if [[ -d "$1" ]]; then
+    # It's a directory
+    dir_abs_path=$(cd "$1" && pwd)
+    printf "%s" "$dir_abs_path"
+  elif [[ -f "$1" ]]; then
+    # It's a file
     dir=$(dirname "$1")
-    cd "$dir" >/dev/null 2>&1
-    printf "%s/%s" "$(pwd)" "${1##*/}"
-  )
+    filename=$(basename "$1")
+    dir_abs_path=$(cd "$dir" && pwd)
+    printf "%s/%s" "$dir_abs_path" "$filename"
+  else
+    echo "$1 does not exist" >&2
+    exit 1
+  fi
 }
 
-# Navigate to the directory where the current script resides
+# Get the absolute path of the current script
 bashfile=$(abs_path "$0")
+
+# Now you can use "$bashfile" as needed
+echo "The absolute path of the script is: $bashfile"
 selfdir=$(dirname "$bashfile")
 selfdir=abs_path
 cd "$selfdir"
