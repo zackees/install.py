@@ -38,7 +38,10 @@ abs_path() {
 # Navigate to the directory where the current script resides
 bashfile=$(abs_path "$0")
 selfdir=$(dirname "$bashfile")
+selfdir=abs_path
 cd "$selfdir"
+echo "activate.sh change working directory to $(pwd)"
+
 
 if [ "$IN_ACTIVATED_ENV" = "1" ]; then
   IN_ACTIVATED_ENV=1
