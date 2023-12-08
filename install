@@ -2,6 +2,7 @@
 
 kernelName="$(uname -s)"
 
+pwd
 ls -al
 
 # Function that computes absolute path of a file
