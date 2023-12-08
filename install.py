@@ -46,15 +46,10 @@ else
   IN_ACTIVATED_ENV=0
 fi
 
-if [ "$IN_ACTIVATED_ENV" = "1" ]; then
-  IN_ACTIVATED_ENV=1
-else
-  IN_ACTIVATED_ENV=1
-fi
-
 # If the 'venv' directory doesn't exist, print a message and exit.
 if [ ! -d "venv" ]; then
-  echo "The 'venv' directory does not exist, creating..."
+  $cwd = $(pwd)
+  echo "The 'venv' directory in $venv does not exist, creating..."
   echo "OSTYPE: $OSTYPE"
   case "$OSTYPE" in
     darwin*|linux-gnu*)
