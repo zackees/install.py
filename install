@@ -1,6 +1,6 @@
 #!/bin/bash
 # run this with one line:
-#  curl -s https://raw.githubusercontent.com/zackees/install.py/main/install | bash
+#  curl https://raw.githubusercontent.com/zackees/install.py/main/install -o install && bash ./install
 
 set -e
 
