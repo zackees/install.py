@@ -61,12 +61,19 @@ if [ ! -d "venv" ]; then
 
   . ./venv/bin/activate
   export IN_ACTIVATED_ENV=1
+  this_dir=$(pwd)
+  export PATH="$this_dir:$PATH"
   echo "Environment created."
   pip install -e .
   exit 0
 fi
 
-. ./venv/bin/activate
+if [[ "$IN_ACTIVATED_ENV" != "1" ]]; then
+  . ./venv/bin/activate
+  export IN_ACTIVATED_ENV=1
+  this_dir=$(pwd)
+  export PATH="$this_dir:$PATH"
+fi
 """
 HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
@@ -136,11 +143,24 @@ def check_platform() -> None:
             print("This script only works with git bash on windows.")
             sys.exit(1)
 
+def convert_windows_path_to_git_bash_path(path: str) -> str:
+    # Function to replace the matched drive letter and colon
+    def replace_drive_letter(match):
+        return "/" + match.group(1).lower() + "/"
+
+    # Replace the drive letter and colon with Git Bash format
+    path = re.sub(r"([A-Za-z]):\\", replace_drive_letter, path)
+    # Replace backslashes with forward slashes
+    path = path.replace("\\", "/")
+    return path
+
 
 def modify_activate_script() -> None:
-    bin = "bin" if sys.platform != "win32" else "Scripts"
-    path = os.path.join(HERE, "venv", bin, "activate")
-    text_to_add = '\nPATH="./:$PATH"\n' + "export PATH"
+    path = os.path.join(HERE, "venv", "bin", "activate")
+    abs_path = os.path.abspath(path)
+    if sys.platform == "win32":
+        abs_path = convert_windows_path_to_git_bash_path(abs_path)
+    text_to_add = f'\nPATH="{abs_path}:$PATH"\n' + "export PATH"
     with open(path, encoding="utf-8", mode="a") as fd:
         fd.write(text_to_add)
 
