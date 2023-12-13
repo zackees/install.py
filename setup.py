@@ -5,6 +5,6 @@ A stub to make testing pass.
 from setuptools import setup
 
 setup(
-    name='YourPackageName',
+    name='ThisIsUsedJustForTesting_DoNotUseOtherwise',
     version='0.1'
 )
