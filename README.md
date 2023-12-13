@@ -19,7 +19,3 @@ Super easy script that can make a virtual environment then drop in an active.sh 
     * `curl https://raw.githubusercontent.com/zackees/install.py/main/install -o install && bash ./install`
   * To enter the environment run:
     * `source activate.sh`
-
-
-# Notes
-    This script is tested to work using python2 and python3 from a fresh install.
