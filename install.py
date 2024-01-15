@@ -112,7 +112,7 @@ def platform_ensure_python_installed() -> None:
         )
         print(f"Python is already installed: {stdout}")
         return
-    except Exception:
+    except Exception:  # pylint: disable=broad-except
         pass
     if sys.platform == "darwin":
         _exe("brew install python3")
