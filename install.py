@@ -82,7 +82,7 @@ os.chdir(os.path.abspath(HERE))
 print(f"install.py changed directory to {os.getcwd()}")
 
 
-def _exe(cmd: str, check: bool = True, cwd: Optional[str] = None) -> None:
+def _exe(cmd: str, check: bool = True, cwd: Optional[str] = None, env: Optional[dict] = None) -> None:
     msg = (
         "########################################\n"
         f"# Executing '{cmd}'\n"
@@ -92,7 +92,10 @@ def _exe(cmd: str, check: bool = True, cwd: Optional[str] = None) -> None:
     sys.stdout.flush()
     sys.stderr.flush()
     # os.system(cmd)
-    subprocess.run(cmd, shell=True, check=check, cwd=cwd)
+    kwargs = {}
+    if cwd is not None:
+        kwargs["env"] = env
+    subprocess.run(cmd, shell=True, check=check, cwd=cwd, **kwargs)
 
 
 def is_tool(name):
@@ -215,8 +218,13 @@ def main() -> int:
     # Note that we can now just use pip instead of pip3 because
     # we are now in the virtual environment.
     try:
-        cmd = "bash activate.sh" if sys.platform == "win32" else f'"{activate_sh}"'
-        _exe(f"{cmd} && pip install -e .")  # Why does this fail on windows git-bash?
+        if sys.platform == "win32":
+            path = os.path.join(HERE, "venv", "Scripts")
+        else:
+            path = os.path.join(HERE, "venv", "bin")
+        env = os.environ.copy()
+        env["PATH"] = f"{path}{os.pathsep}{env['PATH']}"
+        _exe("pip install -e .", env=env)  # Why does this fail on windows git-bash?
         print(
             'Now use ". ./activate.sh" (at the project root dir) to enter into the environment.'
         )
