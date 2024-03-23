@@ -69,11 +69,9 @@ if [ ! -d "venv" ]; then
   exit 0
 fi
 
-if [[ "$IN_ACTIVATED_ENV" != "1" ]]; then
+if [ "$IN_ACTIVATED_ENV" != "1" ]; then
   . ./venv/bin/activate
   export IN_ACTIVATED_ENV=1
-  this_dir=$(pwd)
-  export PATH="$this_dir:$PATH"
 fi
 """
 HERE = os.path.dirname(__file__)
