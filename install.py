@@ -196,7 +196,7 @@ def main() -> int:
           fd.write(_ACTIVATE_SH)
       if sys.platform != "win32":
           _exe(f'chmod +x {activate_sh}')
-      _exe(f'git add {activate_sh} --chmod=+x')
+      _exe(f'git add {activate_sh} --chmod=+x', check=False)
 
 
 
