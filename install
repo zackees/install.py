@@ -44,11 +44,7 @@ elif [ "$kernelName" == "Linux" ]; then
     echo "finished linux install"
     exit 0
 elif [[ "$kernelName" == CYGWIN* ]] || [[ "$kernelName" == MINGW32* ]] || [[ "$kernelName" == MSYS* ]] || [[ "$kernelName" == MINGW* ]]; then
-    echo "Windows OS detected"
-    if [[ -z "$MSYSTEM" || "$MSYSTEM" != "MINGW64" && "$MSYSTEM" != "MINGW32" ]]; then
-        echo "Error: This script must be run in Git Bash on Windows."
-        exit 1
-    fi
+    echo "Windows OS detected in Git Bash."
     python -m venv venv
     source venv/Scripts/activate
     python install.py
