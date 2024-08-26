@@ -17,7 +17,7 @@ fi
 
 uv run pip install -e .
 
-
+rm -rf ./activate
 
 # if windows then symlink .venv/Scripts/activate to .venv/bin/activate
 if [[ "$OSTYPE" == "msys" ]]; then
