@@ -15,4 +15,4 @@ jobs:
         rm -rf *
         curl https://raw.githubusercontent.com/zackees/install.py/main/setup.py -o setup.py
         curl -s https://raw.githubusercontent.com/zackees/install.py/main/install | bash
-        . ./activate.sh && python --version
+        . ./activate && python --version
