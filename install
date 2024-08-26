@@ -2,10 +2,10 @@
 
 set -e
 
-# If the OS is Darwin (macOS), do not use --break-system-packages
-BREAK_FLAG="--break-system-packages"
+# Set the --break-system-packages flag for Darwin (macOS) only
+BREAK_FLAG=""
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  BREAK_FLAG=""
+  BREAK_FLAG="--break-system-packages"
 fi
 
 # Determine the correct pip command based on the OS
