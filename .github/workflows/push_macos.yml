@@ -17,4 +17,4 @@ jobs:
     - name: test post install
       run: |
         pwd
-        . ./activate.sh && python --version
+        . ./activate && python --version
