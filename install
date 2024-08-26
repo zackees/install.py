@@ -1,25 +1,33 @@
+#!/bin/bash
 
 set -e
 
-#if is windows then use pip to install uv, else use pip3
+# If the OS is Darwin (macOS), do not use --break-system-packages
+BREAK_FLAG="--break-system-packages"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  BREAK_FLAG=""
+fi
+
+# Determine the correct pip command based on the OS
 if [[ "$OSTYPE" == "msys" ]]; then
-  pip install uv --break-system-packages
+  pip install uv $BREAK_FLAG
 else
-  pip3 install uv --break-system-packages
+  pip3 install uv $BREAK_FLAG
 fi
 
 uv venv --python 3.11
 
-# if requirements.testing.txt exists then install it
+# Install requirements from requirements.testing.txt if it exists
 if [[ -f requirements.testing.txt ]]; then
   uv run pip install -r requirements.testing.txt
 fi
 
 uv run pip install -e .
 
+# Remove the previous activation script if it exists
 rm -rf ./activate
 
-# if windows then symlink .venv/Scripts/activate to .venv/bin/activate
+# Create symlink for the activation script
 if [[ "$OSTYPE" == "msys" ]]; then
   ln -s .venv/Scripts/activate ./activate
   if [[ -d .git ]]; then
