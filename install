@@ -1,6 +1,13 @@
 
 set -e
 
+#if is windows then use pip to install uv, else use pip3
+if [[ "$OSTYPE" == "msys" ]]; then
+  pip install uv
+else
+  pip3 install uv
+fi
+
 uv venv --python 3.11
 
 # if requirements.testing.txt exists then install it
