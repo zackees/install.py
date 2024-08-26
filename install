@@ -3,9 +3,9 @@ set -e
 
 #if is windows then use pip to install uv, else use pip3
 if [[ "$OSTYPE" == "msys" ]]; then
-  pip install uv
+  pip install uv --break-system-packages
 else
-  pip3 install uv
+  pip3 install uv --break-system-packages
 fi
 
 uv venv --python 3.11
