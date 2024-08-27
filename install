@@ -1,28 +1,35 @@
 #!/bin/bash
 set -e
 
-#if is windows then use pip to install uv, else use pip3
-if [[ "$OSTYPE" == "msys" ]]; then
-  pip install uv
-else
-  pip3 install uv
+# Check if UV is not found
+if ! command -v uv &> /dev/null; then
+  # If Darwin (macOS), use brew to install UV
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    brew install uv
+  else
+    # If it's Windows, use pip to install UV, else use pip3
+    if [[ "$OSTYPE" == "msys" ]]; then
+      pip install uv
+    else
+      pip3 install uv
+    fi
+  fi
 fi
 
 uv venv --python 3.11 --seed
 uv run pip install -e .
 
-# if requirements.testing.txt exists then install it
+# If requirements.testing.txt exists, then install it
 if [[ -f requirements.testing.txt ]]; then
   uv run pip install -r requirements.testing.txt
 fi
 
-# if activate exists, delete it
+# If activate exists, delete it
 if [[ -f activate ]]; then
   rm activate
 fi
 
-
-# if windows then symlink .venv/Scripts/activate to .venv/bin/activate
+# If Windows, then symlink .venv/Scripts/activate to .venv/bin/activate
 if [[ "$OSTYPE" == "msys" ]]; then
   ln -s .venv/Scripts/activate ./activate
   if [[ -d .git ]]; then
