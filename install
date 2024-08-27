@@ -1,33 +1,28 @@
 #!/bin/bash
-
 set -e
 
-# Set the --break-system-packages flag for Darwin (macOS) only
-BREAK_FLAG=""
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  BREAK_FLAG="--break-system-packages"
-fi
-
-# Determine the correct pip command based on the OS
+#if is windows then use pip to install uv, else use pip3
 if [[ "$OSTYPE" == "msys" ]]; then
-  pip install uv $BREAK_FLAG
+  pip install uv
 else
-  pip3 install uv $BREAK_FLAG
+  pip3 install uv
 fi
 
-uv venv --python 3.11
+uv venv --python 3.11 --seed
+uv run pip install -e .
 
-# Install requirements from requirements.testing.txt if it exists
+# if requirements.testing.txt exists then install it
 if [[ -f requirements.testing.txt ]]; then
   uv run pip install -r requirements.testing.txt
 fi
 
-uv run pip install -e .
+# if activate exists, delete it
+if [[ -f activate ]]; then
+  rm activate
+fi
 
-# Remove the previous activation script if it exists
-rm -rf ./activate
 
-# Create symlink for the activation script
+# if windows then symlink .venv/Scripts/activate to .venv/bin/activate
 if [[ "$OSTYPE" == "msys" ]]; then
   ln -s .venv/Scripts/activate ./activate
   if [[ -d .git ]]; then
