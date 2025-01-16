@@ -18,6 +18,7 @@ fi
 
 uv venv --python 3.11 --seed
 uv run pip install -e .
+uv run python -c "import os; _ = os.getcwd()"
 
 # If requirements.testing.txt exists, then install it
 if [[ -f requirements.testing.txt ]]; then
